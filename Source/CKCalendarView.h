@@ -44,22 +44,37 @@ typedef enum {
 @property (nonatomic) BOOL onlyShowCurrentMonth;
 @property (nonatomic) BOOL adaptHeightToNumberOfWeeksInMonth;
 
-@property (nonatomic, weak) id<CKCalendarDelegate> delegate;
+@property (nonatomic, weak) id <CKCalendarDelegate> delegate;
 
 // Theming
+@property (nonatomic, strong) UIButton *prevMonthButton;
+@property (nonatomic, strong) UIButton *nextMonthButton;
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, strong) UIColor *titleColor;
-@property (nonatomic, strong) UIFont *dateOfWeekFont;
+@property (nonatomic, strong) UIFont *dayOfWeekFont;
 @property (nonatomic, strong) UIColor *dayOfWeekTextColor;
 @property (nonatomic, strong) UIFont *dateFont;
+@property (nonatomic, assign) CGFloat skipMonthButtonInset;
+@property (nonatomic, assign) CGFloat skipYearButtonInset;
+@property (nonatomic, assign) BOOL shouldShowSkipYearButtons;
 
 - (void)setMonthButtonColor:(UIColor *)color;
 - (void)setInnerBorderColor:(UIColor *)color;
-- (void)setDayOfWeekBottomColor:(UIColor *)bottomColor topColor:(UIColor *)topColor;
+- (void)setDayOfWeekBackgroundColor:(UIColor *)color;
+- (void)setDateBorderColor:(UIColor *)color;
+
+- (void)setPrevMonthButtonImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setNextMonthButtonImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setPrevYearButtonImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setNextYearButtonImage:(UIImage *)image forState:(UIControlState)state;
+
+- (void)setTitleHeaderHeight:(CGFloat)titleHeaderHeight;
+- (void)setDaysHeaderHeight:(CGFloat)daysHeaderHeight;
+- (void)setCellHeight:(CGFloat)cellHeight;
+- (void)setCellBorderWidth:(CGFloat)cellBorderWidth;
 
 - (void)selectDate:(NSDate *)date makeVisible:(BOOL)visible;
 - (void)reloadData;
-- (void)reloadDates:(NSArray *)dates;
 
 // Helper methods for delegates, etc.
 - (BOOL)date:(NSDate *)date1 isSameDayAsDate:(NSDate *)date2;

@@ -4,118 +4,103 @@
 
 @interface CKViewController () <CKCalendarDelegate>
 
-@property(nonatomic, weak) CKCalendarView *calendar;
-@property(nonatomic, strong) UILabel *dateLabel;
-@property(nonatomic, strong) NSDateFormatter *dateFormatter;
-@property(nonatomic, strong) NSDate *minimumDate;
-@property(nonatomic, strong) NSArray *disabledDates;
+@property (nonatomic, strong) CKCalendarView *calendar;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDate *minimumDate;
+@property (nonatomic, strong) NSArray *disabledDates;
 
 @end
 
 @implementation CKViewController
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday];
-        self.calendar = calendar;
-        calendar.delegate = self;
+- (void)loadView {
+	[super loadView];
 
-        self.dateFormatter = [[NSDateFormatter alloc] init];
-        [self.dateFormatter setDateFormat:@"dd/MM/yyyy"];
-        self.minimumDate = [self.dateFormatter dateFromString:@"20/09/2012"];
+	self.view.backgroundColor = [UIColor whiteColor];
 
-        self.disabledDates = @[
-                [self.dateFormatter dateFromString:@"05/01/2013"],
-                [self.dateFormatter dateFromString:@"06/01/2013"],
-                [self.dateFormatter dateFromString:@"07/01/2013"]
-        ];
+	self.calendar = [[CKCalendarView alloc] initWithStartDay:startSunday];
+	self.calendar.frame = CGRectMake(0, 20, 320, 320);
+	self.calendar.delegate = self;
 
-        calendar.onlyShowCurrentMonth = NO;
-        calendar.adaptHeightToNumberOfWeeksInMonth = YES;
+	self.calendar.onlyShowCurrentMonth = NO;
+	self.calendar.adaptHeightToNumberOfWeeksInMonth = YES;
+	self.calendar.shouldShowSkipYearButtons = YES;
 
-        calendar.frame = CGRectMake(10, 10, 300, 320);
-        [self.view addSubview:calendar];
+	[self.view addSubview:self.calendar];
 
-        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(calendar.frame) + 4, self.view.bounds.size.width, 24)];
-        [self.view addSubview:self.dateLabel];
+	self.dateFormatter = [[NSDateFormatter alloc] init];
+	[self.dateFormatter setDateFormat:@"dd/MM/yyyy"];
 
-        self.view.backgroundColor = [UIColor whiteColor];
+	self.minimumDate = [self.dateFormatter dateFromString:@"20/09/2012"];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange) name:NSCurrentLocaleDidChangeNotification object:nil];
-    }
-    return self;
+	NSDate *today = [NSDate date];
+	self.disabledDates = @[
+                           [today dateByAddingTimeInterval:86400],
+                           [today dateByAddingTimeInterval:86400 * 2],
+                           [today dateByAddingTimeInterval:86400 * 3]
+                           ];
+
+	self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.calendar.frame) + 50, self.view.bounds.size.width, 50)];
+	self.dateLabel.textAlignment = NSTextAlignmentCenter;
+	self.dateLabel.font = [UIFont fontWithName:@"GillSans" size:60.0f];
+	[self.view addSubview:self.dateLabel];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange)
+	                                             name:NSCurrentLocaleDidChangeNotification
+	                                           object:nil];
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+		return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+	}
+	else {
+		return YES;
+	}
 }
 
 - (void)localeDidChange {
-    [self.calendar setLocale:[NSLocale currentLocale]];
+	[self.calendar setLocale:[NSLocale currentLocale]];
 }
 
 - (BOOL)dateIsDisabled:(NSDate *)date {
-    for (NSDate *disabledDate in self.disabledDates) {
-        if ([disabledDate isEqualToDate:date]) {
-            return YES;
-        }
-    }
-    return NO;
+	for (NSDate *disabledDate in self.disabledDates) {
+		if ([self.calendar date:disabledDate isSameDayAsDate:date]) {
+			return YES;
+		}
+	}
+	return NO;
 }
 
-#pragma mark -
 #pragma mark - CKCalendarDelegate
 
 - (void)calendar:(CKCalendarView *)calendar configureDateItem:(CKDateItem *)dateItem forDate:(NSDate *)date {
-    // TODO: play with the coloring if we want to...
-    if ([self dateIsDisabled:date]) {
-        dateItem.backgroundColor = [UIColor redColor];
-        dateItem.textColor = [UIColor whiteColor];
-    }
+	// TODO: play with the coloring if we want to...
+	if ([self dateIsDisabled:date]) {
+		dateItem.backgroundColor = [UIColor lightGrayColor];
+		dateItem.textColor = [UIColor whiteColor];
+	}
 }
 
 - (BOOL)calendar:(CKCalendarView *)calendar willSelectDate:(NSDate *)date {
-    return ![self dateIsDisabled:date];
+	return ![self dateIsDisabled:date];
 }
 
 - (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date {
-    self.dateLabel.text = [self.dateFormatter stringFromDate:date];
+	self.dateLabel.text = [self.dateFormatter stringFromDate:date];
 }
 
 - (BOOL)calendar:(CKCalendarView *)calendar willChangeToMonth:(NSDate *)date {
-    if ([date laterDate:self.minimumDate] == date) {
-        self.calendar.backgroundColor = [UIColor blueColor];
-        return YES;
-    } else {
-        self.calendar.backgroundColor = [UIColor redColor];
-        return NO;
-    }
+	return YES;
 }
 
 - (void)calendar:(CKCalendarView *)calendar didLayoutInRect:(CGRect)frame {
-    NSLog(@"calendar layout: %@", NSStringFromCGRect(frame));
+	NSLog(@"calendar layout: %@", NSStringFromCGRect(frame));
 }
 
 @end

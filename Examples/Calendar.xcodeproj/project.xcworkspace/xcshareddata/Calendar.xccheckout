@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A2C82E59-ABE6-495A-8036-527DCA6F9A78</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Calendar</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>86177050-2F07-4CE0-A0EE-5578BD6D7895</key>
+		<string>https://bitbucket.org/prolificinteractive/ckcalendar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Examples/Calendar.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>86177050-2F07-4CE0-A0EE-5578BD6D7895</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/prolificinteractive/ckcalendar.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>86177050-2F07-4CE0-A0EE-5578BD6D7895</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>86177050-2F07-4CE0-A0EE-5578BD6D7895</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CKCalendar</string>
+		</dict>
+	</array>
+</dict>
+</plist>
