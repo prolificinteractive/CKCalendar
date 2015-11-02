@@ -3,7 +3,7 @@ CKCalendar
 
 CKCalendar is a sleek, easily customizable calendar control for iOS. Simply add the header, implementation, and resource files to your project and link against it's framework dependencies: QuartzCore and CoreGraphics. 
 
-![CKCalendar screenshot](https://bitbucket.org/prolificinteractive/ckcalendar/raw/master/CKCalendar.png)
+![CKCalendar screenshot](https://raw.githubusercontent.com/prolificinteractive/CKCalendar/master/CKCalendar.png)
 
 ## Interacting with CKCalendar
 CKCalendar provides delegate callbacks to interact with the calendar. To start, make sure to set the `delegate` property on your `CKCalendarView` instance:
